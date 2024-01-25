@@ -19,7 +19,7 @@ const AppPage = () => {
       <div className={"space-y-6 text-white text-center"}>
         <h1
           className={cn(
-            "text-6xl font-semibold drop-shadow-xl",
+            "text-6xl font-semibold drop-shadow-xl text-gradient-100",
             font.className
           )}
         >

@@ -1,5 +1,7 @@
-const LoginPage = () => {
-  return <div>Enter</div>;
+import SignInForm from "@/components/auth/signin/form";
+
+const SignInPage = () => {
+  return <SignInForm></SignInForm>;
 };
 
-export default LoginPage;
+export default SignInPage;
