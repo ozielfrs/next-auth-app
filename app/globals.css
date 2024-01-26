@@ -112,4 +112,11 @@ body,
   .bg-gradient-900 {
     @apply bg-gradient-to-r from-indigo-900 to-rose-900
   }
+  .main-bg-500{
+    @apply flex h-full w-full flex-col items-center justify-center bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-white via-indigo-500 to-rose-500
+  }
+  .main-bg-900{
+    @apply flex h-full w-full flex-col items-center justify-center bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-white via-indigo-900 to-rose-900
+  }
+  
 }

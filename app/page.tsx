@@ -11,11 +11,7 @@ const font = Poppins({
 
 const AppPage = () => {
   return (
-    <main
-      className={
-        "flex h-full w-full flex-col items-center justify-center bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-white via-indigo-500 to-slate-950"
-      }
-    >
+    <main className={"main-bg-500"}>
       <div className={"space-y-6 text-white text-center"}>
         <h1
           className={cn(

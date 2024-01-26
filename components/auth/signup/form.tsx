@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { z } from "zod";
-import { SignInSchema } from "@/schemas";
+import { SignUpSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
 
 import { Button } from "@/components/ui/button";
@@ -26,24 +26,25 @@ import {
 
 import { FormError } from "@/components/form/error";
 import { FormSuccess } from "@/components/form/success";
-import { SignIn } from "@/actions/signin";
+import { SignUp } from "@/actions/signup";
 
-export const SignInForm = () => {
+export const SignUpForm = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
 
-  const form = useForm<z.infer<typeof SignInSchema>>({
-    resolver: zodResolver(SignInSchema),
+  const form = useForm<z.infer<typeof SignUpSchema>>({
+    resolver: zodResolver(SignUpSchema),
     defaultValues: {
       email: "",
       password: "",
+      name: "",
     },
   });
 
-  const onSubmit = (data: z.infer<typeof SignInSchema>) => {
+  const onSubmit = (data: z.infer<typeof SignUpSchema>) => {
     startTransition(() => {
-      SignIn(data).then((res) => {
+      SignUp(data).then((res) => {
         setError(res.error);
         setSuccess(res.success);
       });
@@ -54,10 +55,10 @@ export const SignInForm = () => {
     <>
       <CardWrapper
         header={<Header />}
-        description={<>Sign in to your account to continue</>}
+        description={<>Create an account</>}
         footer={
           <>
-            <BackButton href={"signup"} label={"Don't have an account?"} />
+            <BackButton href={"signin"} label={"Already have an account?"} />
           </>
         }
         showSocials
@@ -65,6 +66,21 @@ export const SignInForm = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="space-y-3">
+              <FormField
+                disabled={isPending}
+                control={form.control}
+                name={"name"}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder={"Your Name"} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 disabled={isPending}
                 control={form.control}
@@ -105,7 +121,7 @@ export const SignInForm = () => {
               <FormSuccess message={success} />
               <FormError message={error} />
               <Button className={"w-full bg-gradient-500"} type={"submit"}>
-                Sign in
+                Confirm
               </Button>
             </div>
           </form>

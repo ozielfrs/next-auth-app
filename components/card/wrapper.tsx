@@ -26,7 +26,7 @@ export const CardWrapper = ({
 }: CardWrapperProps) => {
   return (
     <>
-      <Card className="flex flex-col items-center overflow-auto">
+      <Card className={"flex flex-col items-center overflow-auto m-2"}>
         {header && <CardHeader>{header}</CardHeader>}
         <CardContent>
           {description && <CardDescription>{description}</CardDescription>}
