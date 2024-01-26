@@ -97,4 +97,19 @@ body,
   .text-gradient-900 {
     @apply bg-gradient-to-r from-indigo-900 to-rose-900 inline-block text-transparent bg-clip-text
   }
+  .bg-gradient-100 {
+    @apply bg-gradient-to-r from-indigo-100 to-rose-100
+  }
+  .bg-gradient-300 {
+    @apply bg-gradient-to-r from-indigo-300 to-rose-300
+  }
+  .bg-gradient-500 {
+    @apply bg-gradient-to-r from-indigo-500 to-rose-500
+  }
+  .bg-gradient-700 {
+    @apply bg-gradient-to-r from-indigo-700 to-rose-700
+  }
+  .bg-gradient-900 {
+    @apply bg-gradient-to-r from-indigo-900 to-rose-900
+  }
 }

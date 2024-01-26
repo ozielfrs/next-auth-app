@@ -13,7 +13,7 @@ interface HeaderProps {
   label?: string;
 }
 
-const Header = ({ label }: HeaderProps) => {
+export const Header = ({ label }: HeaderProps) => {
   return (
     <>
       <h1 className={cn("text-3xl text-gradient-500", font.className)}>
@@ -25,5 +25,3 @@ const Header = ({ label }: HeaderProps) => {
     </>
   );
 };
-
-export default Header;

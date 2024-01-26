@@ -8,7 +8,7 @@ interface SignInButtonProps {
   asChild?: boolean;
 }
 
-const SignInButton = ({
+export const SignInButton = ({
   children,
   mode = "page",
   asChild,
@@ -20,10 +20,10 @@ const SignInButton = ({
   };
 
   return (
-    <span onClick={clickHandler} className={"cursor-pointer"}>
-      {children}
-    </span>
+    <>
+      <span onClick={clickHandler} className={"cursor-pointer"}>
+        {children}
+      </span>
+    </>
   );
 };
-
-export default SignInButton;

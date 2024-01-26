@@ -4,7 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { Button } from "../ui/button";
 
-const SocialLinks = () => {
+export const SocialLinks = () => {
   return (
     <>
       <div className={"flex items-center w-full gap-x-2"}>
@@ -29,5 +29,3 @@ const SocialLinks = () => {
     </>
   );
 };
-
-export default SocialLinks;

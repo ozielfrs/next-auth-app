@@ -1,6 +1,6 @@
 "use client";
 
-import SocialLinks from "../auth/social";
+import { SocialLinks } from "@/components/auth/social";
 import {
   Card,
   CardContent,
@@ -17,7 +17,7 @@ interface CardWrapperProps {
   showSocials?: boolean;
 }
 
-const CardWrapper = ({
+export const CardWrapper = ({
   description,
   children: content,
   header,
@@ -25,20 +25,20 @@ const CardWrapper = ({
   showSocials,
 }: CardWrapperProps) => {
   return (
-    <Card className="flex flex-col items-center">
-      {header && <CardHeader>{header}</CardHeader>}
-      <CardContent>
-        {description && <CardDescription>{description}</CardDescription>}
-      </CardContent>
-      {content && <CardContent>{content}</CardContent>}
-      {showSocials && (
-        <CardFooter>
-          <SocialLinks />
-        </CardFooter>
-      )}
-      {footer && <CardFooter>{footer}</CardFooter>}
-    </Card>
+    <>
+      <Card className="flex flex-col items-center overflow-auto">
+        {header && <CardHeader>{header}</CardHeader>}
+        <CardContent>
+          {description && <CardDescription>{description}</CardDescription>}
+        </CardContent>
+        {content && <CardContent>{content}</CardContent>}
+        {showSocials && (
+          <CardFooter>
+            <SocialLinks />
+          </CardFooter>
+        )}
+        {footer && <CardFooter>{footer}</CardFooter>}
+      </Card>
+    </>
   );
 };
-
-export default CardWrapper;
