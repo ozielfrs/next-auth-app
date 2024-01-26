@@ -118,5 +118,4 @@ body,
   .main-bg-900{
     @apply flex h-full w-full flex-col items-center justify-center bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-white via-indigo-900 to-rose-900
   }
-  
 }
