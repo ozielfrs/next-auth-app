@@ -2,7 +2,7 @@ import { Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
-import { SignInButton } from "@/components/auth/signin/button";
+import { SignButton } from "@/components/auth/signin/button";
 
 const font = Poppins({
   subsets: ["latin-ext"],
@@ -24,10 +24,13 @@ const AppPage = () => {
         <p className={"text-lg"}>
           A simple app to demonstrate authentication with NextAuth.js
         </p>
-        <div>
-          <SignInButton>
-            <Button variant={"secondary"}>Sign in</Button>
-          </SignInButton>
+        <div className={"space-x-5"}>
+          <SignButton href={"/signin"}>
+            <Button variant={"secondary"}>Sign In</Button>
+          </SignButton>
+          <SignButton href={"/signup"}>
+            <Button variant={"secondary"}>Sign Up</Button>
+          </SignButton>
         </div>
       </div>
     </main>

@@ -2,21 +2,23 @@
 
 import { useRouter } from "next/navigation";
 
-interface SignInButtonProps {
+interface SignButtonProps {
   children: React.ReactNode;
+  href?: string;
   mode?: "modal" | "page";
   asChild?: boolean;
 }
 
-export const SignInButton = ({
+export const SignButton = ({
   children,
+  href = "",
   mode = "page",
   asChild,
-}: SignInButtonProps) => {
+}: SignButtonProps) => {
   const router = useRouter();
 
   const clickHandler = () => {
-    router.push(`/signin`);
+    router.push(href);
   };
 
   return (
