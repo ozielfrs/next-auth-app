@@ -5,6 +5,7 @@ import { Header } from '@/components/auth/header';
 import { BackButton } from '@/components/auth/signin/back/button';
 
 import { useState, useTransition } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -31,6 +32,12 @@ export const SignInForm = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
+
+  const searchParams = useSearchParams();
+  const errorParam =
+    searchParams.get('error') === 'OAuthAccountNotLinked'
+      ? 'Please sign in with the provider you used previously!'
+      : '';
 
   const form = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
@@ -104,7 +111,7 @@ export const SignInForm = () => {
                 )}
               />
               <FormSuccess message={success} />
-              <FormError message={error} />
+              <FormError message={error || errorParam} />
               <Button className={'w-full bg-gradient-500'} type={'submit'}>
                 Sign in
               </Button>

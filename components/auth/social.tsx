@@ -1,22 +1,36 @@
 'use client';
+
+import { signIn } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { DEFAULT_LANDING_PAGE_URL } from '@/routes';
 export interface SocialLinkProps {
-  text?: string;
-  providerIcon?: React.ReactNode;
-  authRoute: string;
+  text: string;
+  providerIcon: React.ReactNode;
+  provider: string;
 }
 
 export const SocialLinks = ({
   text,
   providerIcon,
-  authRoute
+  provider
 }: SocialLinkProps) => {
+  const onClick = (p: string) => {
+    signIn(p, {
+      callbackUrl: DEFAULT_LANDING_PAGE_URL.path
+    });
+  };
+
   return (
     <>
-      <Button className={'bg-gradient-900 space-x-2 mb-2'} size={'default'}>
-        {providerIcon}
-        <Link href={authRoute}>{text}</Link>
+      <Button
+        onClick={() => {
+          onClick(provider);
+        }}
+        className={'bg-gradient-900 space-x-2 mb-2'}
+        size={'default'}
+      >
+        <div>{providerIcon}</div>
+        <div>{text}</div>
       </Button>
     </>
   );

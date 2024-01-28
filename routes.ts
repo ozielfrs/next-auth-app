@@ -11,6 +11,10 @@ export const authRoutes: routeProps[] = [
   {
     path: '/signup',
     name: 'Sign Up'
+  },
+  {
+    path: '/error',
+    name: 'Error'
   }
 ];
 

@@ -31,5 +31,5 @@ export const SignUp = async (values: z.infer<typeof SignUpSchema>) => {
 
   // TODO: Validate Email
 
-  return { success: 'User created' };
+  return { success: 'User created successfully' };
 };

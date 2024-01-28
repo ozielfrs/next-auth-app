@@ -10,7 +10,7 @@ export const SignIn = async (values: z.infer<typeof SignInSchema>) => {
   const validatedFields = SignInSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { success: '', error: 'Invalid fields' };
+    return { success: '', error: 'Invalid fields!' };
   }
 
   const { email, password } = validatedFields.data;
@@ -25,14 +25,13 @@ export const SignIn = async (values: z.infer<typeof SignInSchema>) => {
     if (e instanceof AuthError) {
       switch (e.type) {
         case 'CredentialsSignin':
-          return { success: '', error: 'Invalid Credentials' };
+          return { success: '', error: 'Invalid credentials!' };
         default:
-          return { success: '', error: 'Unknown Error' };
+          return { success: '', error: 'Unknown error!' };
       }
     }
-
     throw e;
   }
 
-  return { success: 'Signed In', error: '' };
+  return { success: 'Signed In!', error: '' };
 };
