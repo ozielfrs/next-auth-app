@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { Poppins } from "next/font/google";
+import { Poppins } from 'next/font/google';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 const font = Poppins({
-  subsets: ["latin-ext"],
-  weight: ["600"],
+  subsets: ['latin-ext'],
+  weight: ['600']
 });
 
 interface HeaderProps {
@@ -16,7 +16,7 @@ interface HeaderProps {
 export const Header = ({ label }: HeaderProps) => {
   return (
     <>
-      <h1 className={cn("text-3xl text-gradient-500", font.className)}>
+      <h1 className={cn('text-3xl text-gradient-500', font.className)}>
         Auth App
       </h1>
       {label && (

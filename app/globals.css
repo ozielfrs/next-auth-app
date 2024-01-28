@@ -7,7 +7,7 @@ body,
 :root {
   height: 100%;
 }
- 
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -15,63 +15,63 @@ body,
 
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
- 
+
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
- 
+
     --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
- 
+
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
- 
+
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
- 
+
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
- 
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
- 
+
     --radius: 0.5rem;
   }
- 
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
- 
+
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
- 
+
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
- 
+
     --primary: 210 40% 98%;
     --primary-foreground: 222.2 47.4% 11.2%;
- 
+
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
- 
+
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
- 
+
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
- 
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
- 
+
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
   }
 }
- 
+
 @layer base {
   * {
     @apply border-border;
@@ -83,39 +83,39 @@ body,
 
 @layer components {
   .text-gradient-100 {
-    @apply bg-gradient-to-r from-indigo-100 to-rose-100 inline-block text-transparent bg-clip-text
+    @apply bg-gradient-to-r from-indigo-100 to-rose-100 inline-block text-transparent bg-clip-text;
   }
   .text-gradient-300 {
-    @apply bg-gradient-to-r from-indigo-300 to-rose-300 inline-block text-transparent bg-clip-text
+    @apply bg-gradient-to-r from-indigo-300 to-rose-300 inline-block text-transparent bg-clip-text;
   }
   .text-gradient-500 {
-    @apply bg-gradient-to-r from-indigo-500 to-rose-500 inline-block text-transparent bg-clip-text
+    @apply bg-gradient-to-r from-indigo-500 to-rose-500 inline-block text-transparent bg-clip-text;
   }
   .text-gradient-700 {
-    @apply bg-gradient-to-r from-indigo-700 to-rose-700 inline-block text-transparent bg-clip-text
+    @apply bg-gradient-to-r from-indigo-700 to-rose-700 inline-block text-transparent bg-clip-text;
   }
   .text-gradient-900 {
-    @apply bg-gradient-to-r from-indigo-900 to-rose-900 inline-block text-transparent bg-clip-text
+    @apply bg-gradient-to-r from-indigo-900 to-rose-900 inline-block text-transparent bg-clip-text;
   }
   .bg-gradient-100 {
-    @apply bg-gradient-to-r from-indigo-100 to-rose-100
+    @apply bg-gradient-to-r from-indigo-100 to-rose-100;
   }
   .bg-gradient-300 {
-    @apply bg-gradient-to-r from-indigo-300 to-rose-300
+    @apply bg-gradient-to-r from-indigo-300 to-rose-300;
   }
   .bg-gradient-500 {
-    @apply bg-gradient-to-r from-indigo-500 to-rose-500
+    @apply bg-gradient-to-r from-indigo-500 to-rose-500;
   }
   .bg-gradient-700 {
-    @apply bg-gradient-to-r from-indigo-700 to-rose-700
+    @apply bg-gradient-to-r from-indigo-700 to-rose-700;
   }
   .bg-gradient-900 {
-    @apply bg-gradient-to-r from-indigo-900 to-rose-900
+    @apply bg-gradient-to-r from-indigo-900 to-rose-900;
   }
-  .main-bg-500{
-    @apply flex h-full w-full flex-col items-center justify-center bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-white via-indigo-500 to-rose-500
+  .main-bg-500 {
+    @apply flex h-full w-full flex-col items-center justify-center bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-white via-indigo-500 to-rose-500;
   }
-  .main-bg-900{
-    @apply flex h-full w-full flex-col items-center justify-center bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-white via-indigo-900 to-rose-900
+  .main-bg-900 {
+    @apply flex h-full w-full flex-col items-center justify-center bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-white via-indigo-900 to-rose-900;
   }
 }

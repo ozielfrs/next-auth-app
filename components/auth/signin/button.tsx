@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
 interface SignButtonProps {
   children: React.ReactNode;
   href?: string;
-  mode?: "modal" | "page";
+  mode?: 'modal' | 'page';
   asChild?: boolean;
 }
 
 export const SignButton = ({
   children,
-  href = "",
-  mode = "page",
-  asChild,
+  href = '',
+  mode = 'page',
+  asChild
 }: SignButtonProps) => {
   const router = useRouter();
 
@@ -23,7 +23,7 @@ export const SignButton = ({
 
   return (
     <>
-      <span onClick={clickHandler} className={"cursor-pointer"}>
+      <span onClick={clickHandler} className={'cursor-pointer'}>
         {children}
       </span>
     </>

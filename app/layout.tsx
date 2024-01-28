@@ -1,18 +1,16 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Image from "next/image";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import '@/app/globals.css';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Auth App",
-  description:
-    "Auth App is a Next.js app with authentication and authorization",
+  title: 'Auth App',
+  description: 'Auth App is a Next.js app with authentication and authorization'
 };
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
   children: React.ReactNode;
 }>) {

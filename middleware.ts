@@ -1,45 +1,45 @@
-import authConfig from "@/auth.config";
-import NextAuth from "next-auth";
+import authConfig from '@/auth.config';
+import NextAuth from 'next-auth';
 
 import {
   authRoutes,
-  publicRoutes,
-  protectedRoutes,
+  appRoutes,
+  apiRoutes,
   DEFAULT_LANDING_PAGE_URL,
-  DEFAULT_SIGNIN_IN_URL,
-} from "@/routes";
+  DEFAULT_SIGNIN_IN_URL
+} from '@/routes';
 
 const { auth } = NextAuth(authConfig);
 
-export default auth((req) => {
+export default auth(req => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 
-  const resolver = (route: { path: string }) => {
-    return nextUrl.pathname === route.path;
+  const resolver = (routes: { path: string }[]) => {
+    return routes.some(route => {
+      const regex = new RegExp(`^${route.path}$`);
+      return regex.test(nextUrl.pathname);
+    });
   };
 
-  const isProtectedRoute = protectedRoutes.some(resolver);
-  const isPublicRoute = publicRoutes.some(resolver);
-  const isAuthRoute = authRoutes.some(resolver);
+  const isAppRoute = resolver(appRoutes);
+  const isApiRoute = resolver(apiRoutes);
+  const isAuthRoute = resolver(authRoutes);
 
-  console.log({ nextUrl, isProtectedRoute, isPublicRoute, isAuthRoute });
-
-  if (isProtectedRoute) return null;
+  if (isApiRoute) return null;
 
   if (isAuthRoute) {
     if (isLoggedIn)
-      return Response.redirect(new URL(DEFAULT_LANDING_PAGE_URL, nextUrl));
+      return Response.redirect(new URL(DEFAULT_LANDING_PAGE_URL.path, nextUrl));
     return null;
   }
 
-  if (!isLoggedIn && !isPublicRoute)
-    return Response.redirect(new URL(DEFAULT_SIGNIN_IN_URL, nextUrl));
+  if (!isLoggedIn && isAppRoute)
+    return Response.redirect(new URL(DEFAULT_SIGNIN_IN_URL.path, nextUrl));
 
   return null;
 });
 
-// Optionally, don't invoke Middleware on some paths
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)']
 };

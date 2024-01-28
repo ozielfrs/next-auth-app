@@ -1,11 +1,10 @@
-import Credentials from "next-auth/providers/credentials";
+import Credentials from 'next-auth/providers/credentials';
 
-import type { NextAuthConfig } from "next-auth";
+import type { NextAuthConfig } from 'next-auth';
 
-import { SignInSchema } from "@/schemas";
-import { getUserByEmail } from "./data/user";
-
-import bcryptjs from "bcryptjs";
+import { SignInSchema } from '@/schemas';
+import { getUserByEmail } from './data/user';
+import bcrypt from 'bcryptjs';
 
 export default {
   providers: [
@@ -20,12 +19,12 @@ export default {
 
           if (!user || !user.password) return null;
 
-          const passwordCheck = await bcryptjs.compare(password, user.password);
+          const passwordCheck = await bcrypt.compare(password, user.password);
 
           if (passwordCheck) return user;
         }
         return null;
-      },
-    }),
-  ],
+      }
+    })
+  ]
 } satisfies NextAuthConfig;

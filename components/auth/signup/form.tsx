@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { CardWrapper } from "@/components/card/wrapper";
-import { Header } from "@/components/auth/header";
-import { BackButton } from "@/components/auth/signin/back/button";
+import { CardWrapper } from '@/components/card/wrapper';
+import { Header } from '@/components/auth/header';
+import { BackButton } from '@/components/auth/signin/back/button';
 
-import { useState, useTransition } from "react";
+import { useState, useTransition } from 'react';
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import { z } from "zod";
-import { SignUpSchema } from "@/schemas";
-import { Input } from "@/components/ui/input";
+import { z } from 'zod';
+import { SignUpSchema } from '@/schemas';
+import { Input } from '@/components/ui/input';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
 import {
   Form,
@@ -21,32 +21,31 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  FormMessage
+} from '@/components/ui/form';
 
-import { FormError } from "@/components/form/error";
-import { FormSuccess } from "@/components/form/success";
-import { SignUp } from "@/actions/signup";
+import { FormSuccess, FormError } from '@/components/form/states';
+import { SignUp } from '@/actions/signup';
 
 export const SignUpForm = () => {
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
+  const [error, setError] = useState<string | undefined>('');
+  const [success, setSuccess] = useState<string | undefined>('');
 
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
-      email: "",
-      password: "",
-      name: "",
-    },
+      email: '',
+      password: '',
+      name: ''
+    }
   });
 
   const onSubmit = (data: z.infer<typeof SignUpSchema>) => {
     startTransition(() => {
-      SignUp(data).then((res) => {
+      SignUp(data).then(res => {
+        setError(res.success);
         setError(res.error);
-        setSuccess(res.success);
       });
     });
   };
@@ -55,10 +54,9 @@ export const SignUpForm = () => {
     <>
       <CardWrapper
         header={<Header />}
-        description={<>Create an account</>}
         footer={
           <>
-            <BackButton href={"signin"} label={"Already have an account?"} />
+            <BackButton href={'signin'} label={'Already have an account?'} />
           </>
         }
         showSocials
@@ -69,12 +67,12 @@ export const SignUpForm = () => {
               <FormField
                 disabled={isPending}
                 control={form.control}
-                name={"name"}
+                name={'name'}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder={"Your Name"} />
+                      <Input {...field} placeholder={'Your Name'} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -84,15 +82,15 @@ export const SignUpForm = () => {
               <FormField
                 disabled={isPending}
                 control={form.control}
-                name={"email"}
+                name={'email'}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
-                        placeholder={"example@mail.com"}
-                        type={"email"}
+                        placeholder={'example@mail.com'}
+                        type={'email'}
                       />
                     </FormControl>
                     <FormMessage />
@@ -103,15 +101,15 @@ export const SignUpForm = () => {
               <FormField
                 disabled={isPending}
                 control={form.control}
-                name={"password"}
+                name={'password'}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
-                        placeholder={"********"}
-                        type={"password"}
+                        placeholder={'********'}
+                        type={'password'}
                       />
                     </FormControl>
                     <FormMessage />
@@ -120,7 +118,7 @@ export const SignUpForm = () => {
               />
               <FormSuccess message={success} />
               <FormError message={error} />
-              <Button className={"w-full bg-gradient-500"} type={"submit"}>
+              <Button className={'w-full bg-gradient-500'} type={'submit'}>
                 Confirm
               </Button>
             </div>
