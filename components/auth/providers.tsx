@@ -1,6 +1,6 @@
-import { SocialLinks, SocialLinkProps } from '@/components/auth/social';
-import { FcGoogle } from 'react-icons/fc';
+import { SocialLinkProps } from '@/components/auth/social';
 import { FaGithub } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
 
 export const GoogleProvider: SocialLinkProps = {
   text: 'Continue with Google',

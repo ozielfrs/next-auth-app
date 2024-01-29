@@ -1,6 +1,8 @@
 'use server';
 
 import { signIn } from '@/auth';
+import { getUserByEmail } from '@/data/user';
+import { generateVerificationTokenByUserId } from '@/lib/tokens';
 import { DEFAULT_LANDING_PAGE_URL } from '@/routes';
 import { SignInSchema } from '@/schemas';
 import { AuthError } from 'next-auth';
@@ -14,6 +16,20 @@ export const SignIn = async (values: z.infer<typeof SignInSchema>) => {
   }
 
   const { email, password } = validatedFields.data;
+
+  const user = await getUserByEmail(email);
+
+  if (user) {
+    if (!user.emailVerified) {
+      console.log('User not verified');
+
+      const verificationToken = await generateVerificationTokenByUserId(
+        user.id
+      );
+
+      return { success: '', error: `Verify your email!` };
+    }
+  }
 
   try {
     await signIn('credentials', {
@@ -33,5 +49,5 @@ export const SignIn = async (values: z.infer<typeof SignInSchema>) => {
     throw e;
   }
 
-  return { success: 'Signed In!', error: '' };
+  return { success: '', error: 'You need to verify your email' };
 };

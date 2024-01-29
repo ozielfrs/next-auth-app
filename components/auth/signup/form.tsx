@@ -1,20 +1,11 @@
 'use client';
 
-import { CardWrapper } from '@/components/card/wrapper';
+import { SignUp } from '@/actions/signup';
 import { Header } from '@/components/auth/header';
 import { BackButton } from '@/components/auth/signin/back/button';
-
-import { useState, useTransition } from 'react';
-
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-
-import { z } from 'zod';
-import { SignUpSchema } from '@/schemas';
-import { Input } from '@/components/ui/input';
-
+import { CardWrapper } from '@/components/card/wrapper';
+import { FormError, FormSuccess } from '@/components/form/states';
 import { Button } from '@/components/ui/button';
-
 import {
   Form,
   FormControl,
@@ -23,9 +14,12 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form';
-
-import { FormSuccess, FormError } from '@/components/form/states';
-import { SignUp } from '@/actions/signup';
+import { Input } from '@/components/ui/input';
+import { SignUpSchema } from '@/schemas';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState, useTransition } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 export const SignUpForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -44,8 +38,10 @@ export const SignUpForm = () => {
   const onSubmit = (data: z.infer<typeof SignUpSchema>) => {
     startTransition(() => {
       SignUp(data).then(res => {
-        setError(res.success);
-        setError(res.error);
+        if (res) {
+          setSuccess(res.success);
+          setError(res.error);
+        }
       });
     });
   };

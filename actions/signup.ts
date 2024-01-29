@@ -1,16 +1,16 @@
 'use server';
 
-import { SignUpSchema } from '@/schemas';
-import { z } from 'zod';
-import bcrypt from 'bcryptjs';
 import { db } from '@/lib/db';
-import { getUserByEmail } from '@/data/user';
+import { generateVerificationTokenByUserId } from '@/lib/tokens';
+import { SignUpSchema } from '@/schemas';
+import bcrypt from 'bcryptjs';
+import { z } from 'zod';
 
 export const SignUp = async (values: z.infer<typeof SignUpSchema>) => {
   const validatedFields = SignUpSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { error: 'Invalid fields' };
+    return { success: '', error: 'Invalid fields' };
   }
 
   const { name, email, password } = validatedFields.data;
@@ -22,14 +22,23 @@ export const SignUp = async (values: z.infer<typeof SignUpSchema>) => {
   });
 
   if (existingUser) {
-    return { error: 'User already exists' };
+    return { success: '', error: 'User already exists' };
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  await getUserByEmail(email);
+  const user = await db.user.create({
+    data: {
+      name,
+      email,
+      password: hashedPassword
+    }
+  });
 
-  // TODO: Validate Email
-
-  return { success: 'User created successfully' };
+  if (user) {
+    const verificationToken = await generateVerificationTokenByUserId(user.id);
+    return { success: 'Verification email sent', error: '' };
+  } else {
+    return { success: '', error: 'This email is not available' };
+  }
 };

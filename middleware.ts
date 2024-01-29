@@ -1,13 +1,12 @@
 import authConfig from '@/auth.config';
-import NextAuth from 'next-auth';
-
 import {
-  authRoutes,
-  appRoutes,
-  apiRoutes,
   DEFAULT_LANDING_PAGE_URL,
-  DEFAULT_SIGNIN_IN_URL
+  DEFAULT_SIGNIN_IN_URL,
+  apiRoutes,
+  appRoutes,
+  authRoutes
 } from '@/routes';
+import NextAuth from 'next-auth';
 
 const { auth } = NextAuth(authConfig);
 

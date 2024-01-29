@@ -1,6 +1,6 @@
 import {
-  ExclamationTriangleIcon,
-  CheckCircledIcon
+  CheckCircledIcon,
+  ExclamationTriangleIcon
 } from '@radix-ui/react-icons';
 
 interface FormProps {

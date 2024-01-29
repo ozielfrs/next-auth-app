@@ -1,8 +1,7 @@
 'use client';
 
-import { SocialLinks } from '@/components/auth/social';
 import { GithubProvider, GoogleProvider } from '@/components/auth/providers';
-
+import { SocialLinks } from '@/components/auth/social';
 import {
   Card,
   CardContent,

@@ -1,8 +1,8 @@
 'use client';
 
-import { signIn } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { DEFAULT_LANDING_PAGE_URL } from '@/routes';
+import { signIn } from 'next-auth/react';
 export interface SocialLinkProps {
   text: string;
   providerIcon: React.ReactNode;
