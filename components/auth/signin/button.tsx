@@ -22,10 +22,8 @@ export const SignButton = ({
   };
 
   return (
-    <>
-      <span onClick={clickHandler} className={'cursor-pointer'}>
-        {children}
-      </span>
-    </>
+    <span onClick={clickHandler} className={'cursor-pointer'}>
+      {children}
+    </span>
   );
 };

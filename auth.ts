@@ -27,12 +27,12 @@ export const {
   },
   callbacks: {
     async signIn({ user, account }) {
-      if (account?.provider === 'credentials') return true;
+      if (account?.provider !== 'credentials') return true;
 
       if (user?.id) {
         const existingUser = await getUserById(user.id);
 
-        if (!existingUser?.emailVerified) return false;
+        if (existingUser?.emailVerified) return true;
       }
 
       return false;

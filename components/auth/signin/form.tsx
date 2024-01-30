@@ -28,10 +28,10 @@ export const SignInForm = () => {
   const [success, setSuccess] = useState<string>('');
 
   const searchParams = useSearchParams();
-  const errorParam =
-    searchParams.get('error') === 'OAuthAccountNotLinked'
-      ? 'Please sign in with the provider you used previously!'
-      : '';
+
+  searchParams.get('error') === 'OAuthAccountNotLinked'
+    ? setError('Please sign in with the provider you used previously!')
+    : '';
 
   const form = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
@@ -42,6 +42,9 @@ export const SignInForm = () => {
   });
 
   const onSubmit = (data: z.infer<typeof SignInSchema>) => {
+    setSuccess('');
+    setError('');
+
     startTransition(() => {
       SignIn(data).then(res => {
         if (res) {
@@ -53,66 +56,59 @@ export const SignInForm = () => {
   };
 
   return (
-    <>
-      <CardWrapper
-        header={<Header />}
-        description={<>Sign in to your account to continue</>}
-        footer={
-          <>
-            <BackButton href={'signup'} label={"Don't have an account?"} />
-          </>
-        }
-        showSocials
-      >
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="space-y-3">
-              <FormField
-                disabled={isPending}
-                control={form.control}
-                name={'email'}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder={'example@mail.com'}
-                        type={'email'}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    <CardWrapper
+      header={<Header label="Sign in to your account to continue" />}
+      footer={<BackButton href={'signup'} label={"Don't have an account?"} />}
+      showSocials
+    >
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="space-y-3">
+            <FormField
+              disabled={isPending}
+              control={form.control}
+              name={'email'}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder={'example@mail.com'}
+                      type={'email'}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <FormField
-                disabled={isPending}
-                control={form.control}
-                name={'password'}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder={'********'}
-                        type={'password'}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormSuccess message={success} />
-              <FormError message={error || errorParam} />
-              <Button className={'w-full bg-gradient-500'} type={'submit'}>
-                Sign in
-              </Button>
-            </div>
-          </form>
-        </Form>
-      </CardWrapper>
-    </>
+            <FormField
+              disabled={isPending}
+              control={form.control}
+              name={'password'}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder={'********'}
+                      type={'password'}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormSuccess message={success} />
+            <FormError message={error} />
+            <Button className={'w-full bg-gradient-500'} type={'submit'}>
+              Sign in
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </CardWrapper>
   );
 };

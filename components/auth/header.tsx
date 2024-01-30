@@ -9,18 +9,17 @@ const font = Poppins({
 });
 
 interface HeaderProps {
+  title?: string;
   label?: string;
 }
 
-export const Header = ({ label }: HeaderProps) => {
+export const Header = ({ label, title = 'Auth App' }: HeaderProps) => {
   return (
-    <>
-      <h1 className={cn('text-3xl text-gradient-500', font.className)}>
-        Auth App
+    <div className="flex flex-col items-center">
+      <h1 className={cn('text-2xl text-gradient-500', font.className)}>
+        {title}
       </h1>
-      {label && (
-        <p className="text-center text-muted-foreground text-sm">{label}</p>
-      )}
-    </>
+      {label && <div className="text-gradient-300 text-sm">{label}</div>}
+    </div>
   );
 };

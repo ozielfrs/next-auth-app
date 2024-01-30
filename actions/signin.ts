@@ -2,6 +2,7 @@
 
 import { signIn } from '@/auth';
 import { getUserByEmail } from '@/data/user';
+import { sendVerificationEmail } from '@/lib/mail';
 import { generateVerificationTokenByUserId } from '@/lib/tokens';
 import { DEFAULT_LANDING_PAGE_URL } from '@/routes';
 import { SignInSchema } from '@/schemas';
@@ -21,11 +22,12 @@ export const SignIn = async (values: z.infer<typeof SignInSchema>) => {
 
   if (user) {
     if (!user.emailVerified) {
-      console.log('User not verified');
-
       const verificationToken = await generateVerificationTokenByUserId(
         user.id
       );
+
+      if (user.email)
+        await sendVerificationEmail(user.email, verificationToken.token);
 
       return { success: '', error: `Verify your email!` };
     }
@@ -42,6 +44,8 @@ export const SignIn = async (values: z.infer<typeof SignInSchema>) => {
       switch (e.type) {
         case 'CredentialsSignin':
           return { success: '', error: 'Invalid credentials!' };
+        case 'AuthorizedCallbackError':
+          return { success: '', error: 'Access denied!' };
         default:
           return { success: '', error: 'Unknown error!' };
       }

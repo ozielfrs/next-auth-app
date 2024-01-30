@@ -5,17 +5,12 @@ import { FormError } from '@/components/form/states';
 
 const ErrorPage = () => {
   return (
-    <>
-      <CardWrapper
-        header={<Header />}
-        description={<FormError message="Something went wrong!" />}
-        footer={
-          <>
-            <BackButton href={'/'} label={'Go back'} />
-          </>
-        }
-      ></CardWrapper>
-    </>
+    <CardWrapper
+      header={<Header />}
+      footer={<BackButton href={'/'} label={'Go back'} />}
+    >
+      <FormError message="Something went wrong!" />
+    </CardWrapper>
   );
 };
 

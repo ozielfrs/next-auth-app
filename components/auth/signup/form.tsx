@@ -23,8 +23,8 @@ import { z } from 'zod';
 
 export const SignUpForm = () => {
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | undefined>('');
-  const [success, setSuccess] = useState<string | undefined>('');
+  const [error, setError] = useState<string>('');
+  const [success, setSuccess] = useState<string>('');
 
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
@@ -36,6 +36,9 @@ export const SignUpForm = () => {
   });
 
   const onSubmit = (data: z.infer<typeof SignUpSchema>) => {
+    setSuccess('');
+    setError('');
+
     startTransition(() => {
       SignUp(data).then(res => {
         if (res) {
@@ -47,80 +50,74 @@ export const SignUpForm = () => {
   };
 
   return (
-    <>
-      <CardWrapper
-        header={<Header />}
-        footer={
-          <>
-            <BackButton href={'signin'} label={'Already have an account?'} />
-          </>
-        }
-        showSocials
-      >
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="space-y-3">
-              <FormField
-                disabled={isPending}
-                control={form.control}
-                name={'name'}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder={'Your Name'} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    <CardWrapper
+      header={<Header title="Sign Up" />}
+      footer={<BackButton href={'signin'} label={'Already have an account?'} />}
+      showSocials
+    >
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="space-y-3">
+            <FormField
+              disabled={isPending}
+              control={form.control}
+              name={'name'}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder={'Your Name'} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <FormField
-                disabled={isPending}
-                control={form.control}
-                name={'email'}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder={'example@mail.com'}
-                        type={'email'}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <FormField
+              disabled={isPending}
+              control={form.control}
+              name={'email'}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder={'example@mail.com'}
+                      type={'email'}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <FormField
-                disabled={isPending}
-                control={form.control}
-                name={'password'}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder={'********'}
-                        type={'password'}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormSuccess message={success} />
-              <FormError message={error} />
-              <Button className={'w-full bg-gradient-500'} type={'submit'}>
-                Confirm
-              </Button>
-            </div>
-          </form>
-        </Form>
-      </CardWrapper>
-    </>
+            <FormField
+              disabled={isPending}
+              control={form.control}
+              name={'password'}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder={'********'}
+                      type={'password'}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormSuccess message={success} />
+            <FormError message={error} />
+            <Button className={'w-full bg-gradient-500'} type={'submit'}>
+              Confirm
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </CardWrapper>
   );
 };

@@ -26,31 +26,29 @@ export const CardWrapper = ({
   showSocials
 }: CardWrapperProps) => {
   return (
-    <>
-      <Card className={'flex flex-col items-center overflow-auto m-2'}>
-        {header && <CardHeader>{header}</CardHeader>}
-        {description && (
-          <CardContent>
-            <CardDescription>{description}</CardDescription>
-          </CardContent>
-        )}
-        {children && <CardContent>{children}</CardContent>}
-        {showSocials && (
-          <>
-            <SocialLinks
-              text={GoogleProvider.text}
-              providerIcon={GoogleProvider.providerIcon}
-              provider={GoogleProvider.provider}
-            />
-            <SocialLinks
-              text={GithubProvider.text}
-              providerIcon={GithubProvider.providerIcon}
-              provider={GithubProvider.provider}
-            />
-          </>
-        )}
-        {footer && <CardFooter>{footer}</CardFooter>}
-      </Card>
-    </>
+    <Card className={'flex flex-col items-center overflow-auto m-2'}>
+      {header && <CardHeader>{header}</CardHeader>}
+      {description && (
+        <CardContent>
+          <CardDescription>{description}</CardDescription>
+        </CardContent>
+      )}
+      {children && <CardContent>{children}</CardContent>}
+      {showSocials && (
+        <>
+          <SocialLinks
+            text={GoogleProvider.text}
+            providerIcon={GoogleProvider.providerIcon}
+            provider={GoogleProvider.provider}
+          />
+          <SocialLinks
+            text={GithubProvider.text}
+            providerIcon={GithubProvider.providerIcon}
+            provider={GithubProvider.provider}
+          />
+        </>
+      )}
+      {footer && <CardFooter>{footer}</CardFooter>}
+    </Card>
   );
 };
