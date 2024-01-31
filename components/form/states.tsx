@@ -32,10 +32,10 @@ export const FormError = ({ message }: FormProps) => {
   );
 };
 
-export const FormVerification = ({ message }: FormProps) => {
+export const FormVerification = ({ color = 'f43f5e' }: { color?: string }) => {
   return (
     <div className="flex items-center w-full justify-center">
-      <MoonLoader speedMultiplier={0.2} color="#f43f5e" />
+      <MoonLoader speedMultiplier={0.45} color={color} />
     </div>
   );
 };

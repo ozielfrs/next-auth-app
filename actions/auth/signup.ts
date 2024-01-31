@@ -1,13 +1,13 @@
 'use server';
 
 import { db } from '@/lib/db';
-import { sendVerificationEmail } from '@/lib/mail';
-import { generateVerificationTokenByUserId } from '@/lib/tokens';
+import { sendEmailVerificationEmail } from '@/lib/mail';
+import { generateEmailVerificationTokenByUserId } from '@/lib/tokens';
 import { SignUpSchema } from '@/schemas';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
 
-export const SignUp = async (values: z.infer<typeof SignUpSchema>) => {
+export const CreateUser = async (values: z.infer<typeof SignUpSchema>) => {
   const validatedFields = SignUpSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -37,11 +37,14 @@ export const SignUp = async (values: z.infer<typeof SignUpSchema>) => {
   });
 
   if (user) {
-    const verificationToken = await generateVerificationTokenByUserId(user.id);
-    if (user.email)
-      await sendVerificationEmail(user.email, verificationToken.token);
+    const verificationToken = await generateEmailVerificationTokenByUserId(
+      user.id
+    );
+
+    await sendEmailVerificationEmail(email, verificationToken.token);
+
     return { success: 'Verification email sent', error: '' };
-  } else {
-    return { success: '', error: 'This email is not available' };
   }
+
+  return { success: '', error: 'This email is not available' };
 };

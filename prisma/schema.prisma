@@ -35,18 +35,29 @@ enum UserRole {
 }
 
 model User {
-  id                String              @id @default(auto()) @map("_id") @db.ObjectId
-  name              String?
-  email             String?             @unique
-  emailVerified     DateTime?
-  image             String?
-  password          String?
-  role              UserRole?           @default(USER)
-  accounts          Account[]
-  verificationToken verificationToken[]
+  id                        String                     @id @default(auto()) @map("_id") @db.ObjectId
+  name                      String?
+  email                     String?                    @unique
+  emailVerified             DateTime?
+  image                     String?
+  password                  String?
+  role                      UserRole?                  @default(USER)
+  accounts                  Account[]
+  EmailVerificationToken    EmailVerificationToken?
+  PasswordVerificationToken PasswordVerificationToken?
 }
 
-model verificationToken {
+model EmailVerificationToken {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  token     String   @unique
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @unique @db.ObjectId
+
+  @@unique([token, userId])
+}
+
+model PasswordVerificationToken {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   token     String   @unique
   expiresAt DateTime

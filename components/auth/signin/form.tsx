@@ -1,6 +1,6 @@
 'use client';
 
-import { SignIn } from '@/actions/signin';
+import { ValidateUser } from '@/actions/auth/signin';
 import { Header } from '@/components/auth/header';
 import { BackButton } from '@/components/auth/signin/back/button';
 import { CardWrapper } from '@/components/card/wrapper';
@@ -46,7 +46,7 @@ export const SignInForm = () => {
     setError('');
 
     startTransition(() => {
-      SignIn(data).then(res => {
+      ValidateUser(data).then(res => {
         if (res) {
           setError(res.error);
           setSuccess(res.success);
@@ -58,7 +58,7 @@ export const SignInForm = () => {
   return (
     <CardWrapper
       header={<Header label="Sign in to your account to continue" />}
-      footer={<BackButton href={'signup'} label={"Don't have an account?"} />}
+      footer={<BackButton href={'/signup'} label={"Don't have an account?"} />}
       showSocials
     >
       <Form {...form}>
@@ -106,6 +106,7 @@ export const SignInForm = () => {
             <Button className={'w-full bg-gradient-500'} type={'submit'}>
               Sign in
             </Button>
+            <BackButton href={'/reset'} label={'Forgot your password?'} />
           </div>
         </form>
       </Form>

@@ -1,6 +1,6 @@
 'use client';
 
-import { newVerification } from '@/actions/verification';
+import { SendEmailVerificationLink } from '@/actions/auth/mail/verification';
 import { Header } from '@/components/auth/header';
 import { BackButton } from '@/components/auth/signin/back/button';
 import { CardWrapper } from '@/components/card/wrapper';
@@ -12,7 +12,7 @@ import {
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
-const VerificationPage = () => {
+const EmailVerificationPage = () => {
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
 
@@ -27,7 +27,7 @@ const VerificationPage = () => {
       setError('Invalid token');
       return;
     }
-    newVerification(token)
+    SendEmailVerificationLink(token)
       .then(res => {
         if (res) {
           setError(res.error);
@@ -48,7 +48,7 @@ const VerificationPage = () => {
       header={<Header title="Verify your email" />}
       footer={
         <>
-          <BackButton href={'/home'} label={'Go to home page'} />
+          <BackButton href={'/signin'} label={'Sign in now'} />
         </>
       }
     >
@@ -59,4 +59,4 @@ const VerificationPage = () => {
   );
 };
 
-export default VerificationPage;
+export default EmailVerificationPage;

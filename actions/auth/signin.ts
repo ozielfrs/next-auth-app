@@ -2,14 +2,14 @@
 
 import { signIn } from '@/auth';
 import { getUserByEmail } from '@/data/user';
-import { sendVerificationEmail } from '@/lib/mail';
-import { generateVerificationTokenByUserId } from '@/lib/tokens';
+import { sendEmailVerificationEmail } from '@/lib/mail';
+import { generateEmailVerificationTokenByUserId } from '@/lib/tokens';
 import { DEFAULT_LANDING_PAGE_URL } from '@/routes';
 import { SignInSchema } from '@/schemas';
 import { AuthError } from 'next-auth';
 import { z } from 'zod';
 
-export const SignIn = async (values: z.infer<typeof SignInSchema>) => {
+export const ValidateUser = async (values: z.infer<typeof SignInSchema>) => {
   const validatedFields = SignInSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -22,12 +22,11 @@ export const SignIn = async (values: z.infer<typeof SignInSchema>) => {
 
   if (user) {
     if (!user.emailVerified) {
-      const verificationToken = await generateVerificationTokenByUserId(
+      const verificationToken = await generateEmailVerificationTokenByUserId(
         user.id
       );
 
-      if (user.email)
-        await sendVerificationEmail(user.email, verificationToken.token);
+      await sendEmailVerificationEmail(email, verificationToken.token);
 
       return { success: '', error: `Verify your email!` };
     }
