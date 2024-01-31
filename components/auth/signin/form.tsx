@@ -26,6 +26,7 @@ export const SignInForm = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
+  const [twoFA, setTwoFA] = useState<boolean>(false);
 
   const searchParams = useSearchParams();
 
@@ -44,12 +45,14 @@ export const SignInForm = () => {
   const onSubmit = (data: z.infer<typeof SignInSchema>) => {
     setSuccess('');
     setError('');
+    setTwoFA(false);
 
     startTransition(() => {
       ValidateUser(data).then(res => {
         if (res) {
-          setError(res.error);
-          setSuccess(res.success);
+          if (res.error) setError(res.error);
+          if (res.success) setSuccess(res.success);
+          if (res.twoFA) setTwoFA(res.twoFA);
         }
       });
     });
@@ -64,49 +67,73 @@ export const SignInForm = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="space-y-3">
-            <FormField
-              disabled={isPending}
-              control={form.control}
-              name={'email'}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder={'example@mail.com'}
-                      type={'email'}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {twoFA && (
+              <>
+                <FormField
+                  disabled={isPending}
+                  control={form.control}
+                  name={'token'}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Two-Factor Code</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder={'2FA0C79F'} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
+            )}
+            {!twoFA && (
+              <>
+                <FormField
+                  disabled={isPending}
+                  control={form.control}
+                  name={'email'}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder={'example@mail.com'}
+                          type={'email'}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <FormField
-              disabled={isPending}
-              control={form.control}
-              name={'password'}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder={'********'}
-                      type={'password'}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                <FormField
+                  disabled={isPending}
+                  control={form.control}
+                  name={'password'}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder={'********'}
+                          type={'password'}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
+            )}
             <FormSuccess message={success} />
             <FormError message={error} />
             <Button className={'w-full bg-gradient-500'} type={'submit'}>
-              Sign in
+              {twoFA ? 'Confirm' : 'Sign in'}
             </Button>
-            <BackButton href={'/reset'} label={'Forgot your password?'} />
+            {!twoFA && (
+              <BackButton href={'/reset'} label={'Forgot your password?'} />
+            )}
           </div>
         </form>
       </Form>

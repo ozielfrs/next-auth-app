@@ -1,8 +1,11 @@
 import {
+  delete2FAVerificationTokenByUserId,
+  get2FAVerificationTokenByUserId,
   getEmailVerificationTokenByUserId,
   getPasswordVerificationTokenByUserId
 } from '@/data/verification';
 import { db } from '@/lib/db';
+import crypto from 'crypto';
 import { v4 } from 'uuid';
 
 export const generateEmailVerificationTokenByUserId = async (
@@ -47,6 +50,26 @@ export const generatePasswordVerificationTokenByUserId = async (
     });
 
   const verificationToken = await db.passwordVerificationToken.create({
+    data: {
+      token,
+      expiresAt,
+      userId
+    }
+  });
+
+  return verificationToken;
+};
+
+export const generate2FAVerificationTokenByUserId = async (userId: string) => {
+  const token = crypto.randomBytes(4).toString('hex').toUpperCase();
+
+  const expiresAt = new Date(new Date().getTime() + 15 * 60 * 1000);
+
+  const existingToken = await get2FAVerificationTokenByUserId(userId);
+
+  if (existingToken) await delete2FAVerificationTokenByUserId(userId);
+
+  const verificationToken = await db.twoFactorVerificationToken.create({
     data: {
       token,
       expiresAt,

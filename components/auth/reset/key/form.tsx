@@ -39,8 +39,8 @@ export const PasswordResetForm = ({ token }: { token: string }) => {
     startTransition(() => {
       ResetPassword(data, token).then(res => {
         if (res) {
-          setError(res.error);
-          setSuccess(res.success);
+          if (res.error) setError(res.error);
+          if (res.success) setSuccess(res.success);
         }
       });
     });

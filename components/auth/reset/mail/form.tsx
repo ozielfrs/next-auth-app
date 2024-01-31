@@ -40,8 +40,8 @@ export const EmailPasswordResetLinkForm = () => {
     startTransition(() => {
       SendEmailResetPasswordLink(data).then(res => {
         if (res) {
-          setError(res.error);
-          setSuccess(res.success);
+          if (res.error) setError(res.error);
+          if (res.success) setSuccess(res.success);
         }
       });
     });

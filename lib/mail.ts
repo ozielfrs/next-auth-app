@@ -29,3 +29,15 @@ export const sendPasswordVerificationEmail = async (
     html: `<p>Click <a href="${confirmationLink}">here</a> to change your password.</p>`
   });
 };
+
+export const send2FAVerificationEmail = async (
+  email: string,
+  token: string
+) => {
+  await resend.emails.send({
+    from: 'onboarding@resend.dev',
+    to: email,
+    subject: 'Please verify your password reset',
+    html: `<p>Your code is ${token}</p>`
+  });
+};

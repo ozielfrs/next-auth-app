@@ -42,8 +42,8 @@ export const SignUpForm = () => {
     startTransition(() => {
       CreateUser(data).then(res => {
         if (res) {
-          setSuccess(res.success);
-          setError(res.error);
+          if (res.error) setError(res.error);
+          if (res.success) setSuccess(res.success);
         }
       });
     });

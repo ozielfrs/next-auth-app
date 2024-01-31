@@ -10,30 +10,24 @@ export const ResetPassword = async (
   data: z.infer<typeof NewPasswordSchema>,
   token: string
 ) => {
-  if (!token) {
+  if (!token)
     return {
-      success: '',
       error: 'Invalid token'
     };
-  }
 
   const validData = NewPasswordSchema.safeParse(data);
 
-  if (!validData.success) {
+  if (!validData.success)
     return {
-      success: '',
       error: 'Invalid data'
     };
-  }
 
   const existingToken = await getPasswordVerificationTokenByToken(token);
 
-  if (!existingToken) {
+  if (!existingToken)
     return {
-      success: '',
       error: "The password can't be changed"
     };
-  }
 
   const user = await db.user.findUnique({
     where: {
@@ -41,12 +35,10 @@ export const ResetPassword = async (
     }
   });
 
-  if (!user) {
+  if (!user)
     return {
-      success: '',
       error: "The password can't be changed"
     };
-  }
 
   const { password } = validData.data;
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -61,7 +53,6 @@ export const ResetPassword = async (
   });
 
   return {
-    success: 'Password changed!',
-    error: ''
+    success: 'Password changed!'
   };
 };

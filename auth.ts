@@ -1,5 +1,9 @@
 import authConfig from '@/auth.config';
 import { getUserById } from '@/data/user';
+import {
+  delete2FAVerificationTokenByTokenId,
+  get2FAVerificationTokenByUserId
+} from '@/data/verification';
 import { db } from '@/lib/db';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { UserRole } from '@prisma/client';
@@ -27,15 +31,30 @@ export const {
   },
   callbacks: {
     async signIn({ user, account }) {
-      if (account?.provider !== 'credentials') return true;
+      if (!account || !user) return false;
 
-      if (user?.id) {
+      if (account.provider !== 'credentials') return true;
+
+      if (user.id) {
         const existingUser = await getUserById(user.id);
 
-        if (existingUser?.emailVerified) return true;
+        if (!existingUser) return false;
+
+        if (!existingUser.emailVerified) return false;
+
+        if (existingUser.enabled2FA) {
+          const twoFactorConfirmation = await get2FAVerificationTokenByUserId(
+            existingUser.id
+          );
+
+          if (!twoFactorConfirmation) return false;
+          if (!twoFactorConfirmation.status) return false;
+
+          await delete2FAVerificationTokenByTokenId(twoFactorConfirmation.id);
+        }
       }
 
-      return false;
+      return true;
     },
     async session({
       session,

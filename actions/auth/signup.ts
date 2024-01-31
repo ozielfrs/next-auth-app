@@ -10,9 +10,7 @@ import { z } from 'zod';
 export const CreateUser = async (values: z.infer<typeof SignUpSchema>) => {
   const validatedFields = SignUpSchema.safeParse(values);
 
-  if (!validatedFields.success) {
-    return { success: '', error: 'Invalid fields' };
-  }
+  if (!validatedFields.success) return { error: 'Invalid fields' };
 
   const { name, email, password } = validatedFields.data;
 
@@ -22,9 +20,7 @@ export const CreateUser = async (values: z.infer<typeof SignUpSchema>) => {
     }
   });
 
-  if (existingUser) {
-    return { success: '', error: 'User already exists' };
-  }
+  if (existingUser) return { error: 'User already exists' };
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -43,8 +39,8 @@ export const CreateUser = async (values: z.infer<typeof SignUpSchema>) => {
 
     await sendEmailVerificationEmail(email, verificationToken.token);
 
-    return { success: 'Verification email sent', error: '' };
+    return { success: 'Verification email sent' };
   }
 
-  return { success: '', error: 'This email is not available' };
+  return { error: 'This email is not available' };
 };

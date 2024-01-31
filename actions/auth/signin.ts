@@ -2,8 +2,19 @@
 
 import { signIn } from '@/auth';
 import { getUserByEmail } from '@/data/user';
-import { sendEmailVerificationEmail } from '@/lib/mail';
-import { generateEmailVerificationTokenByUserId } from '@/lib/tokens';
+import {
+  delete2FAVerificationTokenByTokenId,
+  get2FAVerificationTokenByUserId,
+  update2FAVerificationTokenStatusByTokenId
+} from '@/data/verification';
+import {
+  send2FAVerificationEmail,
+  sendEmailVerificationEmail
+} from '@/lib/mail';
+import {
+  generate2FAVerificationTokenByUserId,
+  generateEmailVerificationTokenByUserId
+} from '@/lib/tokens';
 import { DEFAULT_LANDING_PAGE_URL } from '@/routes';
 import { SignInSchema } from '@/schemas';
 import { AuthError } from 'next-auth';
@@ -12,23 +23,46 @@ import { z } from 'zod';
 export const ValidateUser = async (values: z.infer<typeof SignInSchema>) => {
   const validatedFields = SignInSchema.safeParse(values);
 
-  if (!validatedFields.success) {
-    return { success: '', error: 'Invalid fields!' };
-  }
+  if (!validatedFields.success) return { error: 'Invalid fields!' };
 
-  const { email, password } = validatedFields.data;
+  const { email, password, token } = validatedFields.data;
 
   const user = await getUserByEmail(email);
 
-  if (user) {
-    if (!user.emailVerified) {
-      const verificationToken = await generateEmailVerificationTokenByUserId(
+  if (!user) return { error: 'Invalid credentials!' };
+
+  if (!user.emailVerified) {
+    const verificationToken = await generateEmailVerificationTokenByUserId(
+      user.id
+    );
+
+    await sendEmailVerificationEmail(email, verificationToken.token);
+
+    return { success: `Verify your email!` };
+  }
+
+  if (user.enabled2FA) {
+    if (token) {
+      const twoFAToken = await get2FAVerificationTokenByUserId(user.id);
+
+      if (!twoFAToken) return { error: 'Invalid 2FA token!' };
+      if (twoFAToken.token !== token) return { error: 'Invalid 2FA token!' };
+
+      const hasExpired = twoFAToken.expiresAt < new Date();
+      if (hasExpired) {
+        await delete2FAVerificationTokenByTokenId(twoFAToken.id);
+        return { error: '2FA token has expired!' };
+      }
+
+      await update2FAVerificationTokenStatusByTokenId(twoFAToken.id);
+    } else {
+      const twoFactorToken = await generate2FAVerificationTokenByUserId(
         user.id
       );
 
-      await sendEmailVerificationEmail(email, verificationToken.token);
+      await send2FAVerificationEmail(email, twoFactorToken.token);
 
-      return { success: '', error: `Verify your email!` };
+      return { twoFA: true };
     }
   }
 
@@ -42,15 +76,15 @@ export const ValidateUser = async (values: z.infer<typeof SignInSchema>) => {
     if (e instanceof AuthError) {
       switch (e.type) {
         case 'CredentialsSignin':
-          return { success: '', error: 'Invalid credentials!' };
+          return { error: 'Invalid credentials!' };
         case 'AuthorizedCallbackError':
-          return { success: '', error: 'Access denied!' };
+          return { error: 'Access denied!' };
         default:
-          return { success: '', error: 'Unknown error!' };
+          return { error: 'Unknown error!' };
       }
     }
     throw e;
   }
 
-  return { success: '', error: 'You need to verify your email' };
+  return { error: 'Something went wrong!' };
 };

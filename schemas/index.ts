@@ -2,7 +2,8 @@ import { z } from 'zod';
 
 export const SignInSchema = z.object({
   email: z.string().email({ message: 'Email required' }),
-  password: z.string().min(6, { message: 'Password required' })
+  password: z.string().min(6, { message: 'Password required' }),
+  token: z.string().optional()
 });
 
 export const SignUpSchema = z.object({

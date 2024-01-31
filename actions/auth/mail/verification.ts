@@ -11,21 +11,15 @@ import { z } from 'zod';
 export const SendEmailVerificationLink = async (token: string) => {
   const existingToken = await getEmailVerificationTokenByToken(token);
 
-  if (!existingToken) {
-    return { success: '', error: 'Token not found!' };
-  }
+  if (!existingToken) return { error: 'Token not found!' };
 
   const hasExpired = new Date() > existingToken.expiresAt;
 
-  if (hasExpired) {
-    return { success: '', error: 'Token has expired!' };
-  }
+  if (hasExpired) return { error: 'Token has expired!' };
 
   const user = await getUserById(existingToken.userId);
 
-  if (!user) {
-    return { success: '', error: 'User not found!' };
-  }
+  if (!user) return { error: 'User not found!' };
 
   await db.user.update({
     where: { id: user.id },
@@ -34,28 +28,25 @@ export const SendEmailVerificationLink = async (token: string) => {
 
   await db.emailVerificationToken.delete({ where: { id: existingToken.id } });
 
-  return { success: 'Email verified!', error: '' };
+  return { success: 'Email verified!' };
 };
 
 export const SendEmailResetPasswordLink = async (
   data: z.infer<typeof PasswordResetSchema>
 ) => {
-  const validData = PasswordResetSchema.safeParse(data);
+  const validatedFields = PasswordResetSchema.safeParse(data);
 
-  if (!validData.success) {
+  if (!validatedFields.success)
     return {
-      success: '',
       error: 'Invalid data'
     };
-  }
 
-  const { email } = validData.data;
+  const { email } = validatedFields.data;
 
   const user = await getUserByEmail(email);
 
   if (!user) {
     return {
-      success: '',
       error: 'Email not found'
     };
   }
@@ -67,7 +58,6 @@ export const SendEmailResetPasswordLink = async (
   await sendPasswordVerificationEmail(email, passwordVerificationToken.token);
 
   return {
-    success: 'Password reset email sent!',
-    error: ''
+    success: 'Password reset email sent!'
   };
 };
