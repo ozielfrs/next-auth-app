@@ -3,9 +3,8 @@
 import { signIn } from '@/auth';
 import { getUserByEmail } from '@/data/user';
 import {
-  delete2FAVerificationTokenByTokenId,
   get2FAVerificationTokenByUserId,
-  update2FAVerificationTokenStatusByTokenId
+  update2FAVerificationTokenStatusByUserId
 } from '@/data/verification';
 import {
   send2FAVerificationEmail,
@@ -19,6 +18,7 @@ import { DEFAULT_LANDING_PAGE_URL } from '@/routes';
 import { SignInSchema } from '@/schemas';
 import { AuthError } from 'next-auth';
 import { z } from 'zod';
+import bcrypt from 'bcryptjs';
 
 export const ValidateUser = async (values: z.infer<typeof SignInSchema>) => {
   const validatedFields = SignInSchema.safeParse(values);
@@ -49,13 +49,14 @@ export const ValidateUser = async (values: z.infer<typeof SignInSchema>) => {
       if (twoFAToken.token !== token) return { error: 'Invalid 2FA token!' };
 
       const hasExpired = twoFAToken.expiresAt < new Date();
-      if (hasExpired) {
-        await delete2FAVerificationTokenByTokenId(twoFAToken.id);
-        return { error: '2FA token has expired!' };
-      }
+      if (hasExpired) return { error: '2FA token has expired!' };
 
-      await update2FAVerificationTokenStatusByTokenId(twoFAToken.id);
+      await update2FAVerificationTokenStatusByUserId(user.id);
     } else {
+      const passwordCheck = await bcrypt.compare(password, user.password || '');
+
+      if (!passwordCheck) return { error: 'Invalid credentials!' };
+
       const twoFactorToken = await generate2FAVerificationTokenByUserId(
         user.id
       );

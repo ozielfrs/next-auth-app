@@ -1,5 +1,5 @@
 import {
-  delete2FAVerificationTokenByUserId,
+  delete2FAVerificationTokenByTokenId,
   get2FAVerificationTokenByUserId,
   getEmailVerificationTokenByUserId,
   getPasswordVerificationTokenByUserId
@@ -67,7 +67,8 @@ export const generate2FAVerificationTokenByUserId = async (userId: string) => {
 
   const existingToken = await get2FAVerificationTokenByUserId(userId);
 
-  if (existingToken) await delete2FAVerificationTokenByUserId(userId);
+  if (existingToken)
+    await delete2FAVerificationTokenByTokenId(existingToken.id);
 
   const verificationToken = await db.twoFactorVerificationToken.create({
     data: {

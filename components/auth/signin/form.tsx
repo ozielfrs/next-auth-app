@@ -68,27 +68,27 @@ export const SignInForm = () => {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="space-y-3">
             {twoFA && (
-              <>
-                <FormField
-                  disabled={isPending}
-                  control={form.control}
-                  name={'token'}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Two-Factor Code</FormLabel>
-                      <FormControl>
-                        <Input {...field} placeholder={'2FA0C79F'} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </>
+              <FormField
+                control={form.control}
+                name={'token'}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Two-Factor Code</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isPending}
+                        placeholder={'2FA0C0D3'}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             )}
             {!twoFA && (
               <>
                 <FormField
-                  disabled={isPending}
                   control={form.control}
                   name={'email'}
                   render={({ field }) => (
@@ -97,6 +97,7 @@ export const SignInForm = () => {
                       <FormControl>
                         <Input
                           {...field}
+                          disabled={isPending}
                           placeholder={'example@mail.com'}
                           type={'email'}
                         />
@@ -107,7 +108,6 @@ export const SignInForm = () => {
                 />
 
                 <FormField
-                  disabled={isPending}
                   control={form.control}
                   name={'password'}
                   render={({ field }) => (
@@ -116,6 +116,7 @@ export const SignInForm = () => {
                       <FormControl>
                         <Input
                           {...field}
+                          disabled={isPending}
                           placeholder={'********'}
                           type={'password'}
                         />
@@ -128,7 +129,11 @@ export const SignInForm = () => {
             )}
             <FormSuccess message={success} />
             <FormError message={error} />
-            <Button className={'w-full bg-gradient-500'} type={'submit'}>
+            <Button
+              disabled={isPending}
+              className={'w-full bg-gradient-500'}
+              type={'submit'}
+            >
               {twoFA ? 'Confirm' : 'Sign in'}
             </Button>
             {!twoFA && (

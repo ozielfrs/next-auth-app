@@ -48,9 +48,9 @@ export const {
           );
 
           if (!twoFactorConfirmation) return false;
-          if (!twoFactorConfirmation.status) return false;
-
-          await delete2FAVerificationTokenByTokenId(twoFactorConfirmation.id);
+          if (twoFactorConfirmation.status)
+            await delete2FAVerificationTokenByTokenId(twoFactorConfirmation.id);
+          else return false;
         }
       }
 

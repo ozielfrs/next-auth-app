@@ -27,17 +27,18 @@ export default {
       async authorize(credentials) {
         const validatedFields = SignInSchema.safeParse(credentials);
 
-        if (validatedFields.success) {
-          const { email, password } = validatedFields.data;
+        if (!validatedFields.success) return null;
 
-          const user = await getUserByEmail(email);
+        const { email, password } = validatedFields.data;
 
-          if (!user || !user.password) return null;
+        const user = await getUserByEmail(email);
 
-          const passwordCheck = await bcrypt.compare(password, user.password);
+        if (!user || !user.password) return null;
 
-          if (passwordCheck) return user;
-        }
+        const passwordCheck = await bcrypt.compare(password, user.password);
+
+        if (passwordCheck) return user;
+
         return null;
       }
     })

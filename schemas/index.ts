@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const SignInSchema = z.object({
   email: z.string().email({ message: 'Email required' }),
   password: z.string().min(6, { message: 'Password required' }),
-  token: z.string().optional()
+  token: z.optional(z.string().toUpperCase())
 });
 
 export const SignUpSchema = z.object({
