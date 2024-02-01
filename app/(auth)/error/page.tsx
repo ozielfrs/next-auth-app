@@ -1,3 +1,5 @@
+'use client';
+
 import { Header } from '@/components/auth/header';
 import { BackButton } from '@/components/auth/signin/back/button';
 import { CardWrapper } from '@/components/card/wrapper';

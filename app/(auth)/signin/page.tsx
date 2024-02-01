@@ -1,3 +1,5 @@
+'use client';
+
 import { SignInForm } from '@/components/auth/signin/form';
 
 const SignInPage = () => {

@@ -30,9 +30,10 @@ export const SignInForm = () => {
 
   const searchParams = useSearchParams();
 
-  searchParams.get('error') === 'OAuthAccountNotLinked'
-    ? setError('Please sign in with the provider you used previously!')
-    : '';
+  const errorParam =
+    searchParams.get('error') === 'OAuthAccountNotLinked'
+      ? 'Please sign in with the provider you used previously!'
+      : '';
 
   const form = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
@@ -128,7 +129,7 @@ export const SignInForm = () => {
               </>
             )}
             <FormSuccess message={success} />
-            <FormError message={error} />
+            <FormError message={error || errorParam} />
             <Button
               disabled={isPending}
               className={'w-full bg-gradient-500'}

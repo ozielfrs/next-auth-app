@@ -56,15 +56,7 @@ export const {
 
       return true;
     },
-    async session({
-      session,
-      token,
-      user
-    }: {
-      session: Session;
-      token?: JWT;
-      user?: User;
-    }) {
+    async session({ session, token }: { session: Session; token?: JWT }) {
       if (session.user) {
         if (token?.sub) {
           if (token?.role) session.user.role = token.role as UserRole;

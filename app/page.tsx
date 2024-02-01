@@ -1,3 +1,5 @@
+'use client';
+
 import { SignButton } from '@/components/auth/signin/button';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
