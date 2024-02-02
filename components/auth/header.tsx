@@ -9,7 +9,7 @@ const font = Poppins({
 });
 
 interface HeaderProps {
-  title?: string;
+  title?: React.ReactNode;
   label?: string;
 }
 

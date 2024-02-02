@@ -32,8 +32,16 @@ export const appRoutes: routeProps[] = [
     name: 'Home'
   },
   {
-    path: '/profile',
-    name: 'Profile'
+    path: '/server',
+    name: 'Server'
+  },
+  {
+    path: '/client',
+    name: 'Client'
+  },
+  {
+    path: '/admin',
+    name: 'Admin'
   },
   {
     path: '/settings',
@@ -56,4 +64,9 @@ export const DEFAULT_LANDING_PAGE_URL: routeProps = {
 export const DEFAULT_SIGNIN_IN_URL: routeProps = {
   path: '/signin',
   name: 'Sign In'
+};
+
+export const DEFAULT_ERROR_URL: routeProps = {
+  path: '/error',
+  name: 'Error'
 };

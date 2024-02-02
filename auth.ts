@@ -59,7 +59,10 @@ export const {
     async session({ session, token }: { session: Session; token?: JWT }) {
       if (session.user) {
         if (token?.sub) {
+          session.user.id = token.sub;
           if (token?.role) session.user.role = token.role as UserRole;
+          if (token?.enabled2FA)
+            session.user.enabled2FA = token.enabled2FA as boolean;
         }
       }
 
@@ -69,6 +72,7 @@ export const {
       if (token?.sub) {
         const user = await getUserById(token.sub);
         if (user) {
+          token.enabled2FA = user.enabled2FA;
           token.role = user.role;
         }
       }
