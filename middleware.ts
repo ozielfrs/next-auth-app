@@ -33,8 +33,9 @@ export default auth(req => {
     return null;
   }
 
-  if (!isLoggedIn && isAppRoute)
-    return Response.redirect(new URL(DEFAULT_SIGNIN_IN_URL.path, nextUrl));
+  if (isAppRoute)
+    if (!isLoggedIn)
+      return Response.redirect(new URL(DEFAULT_SIGNIN_IN_URL.path, nextUrl));
 
   return null;
 });
