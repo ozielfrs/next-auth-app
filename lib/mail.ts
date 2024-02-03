@@ -1,12 +1,13 @@
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+const domain = process.env.NEXT_PUBLIC_APP_URL;
 
 export const sendEmailVerificationEmail = async (
   email: string,
   token: string
 ) => {
-  const confirmationLink = `http://localhost:3000/verify/mail/?token=${token}`;
+  const confirmationLink = `${domain}/verify/mail/?token=${token}`;
 
   await resend.emails.send({
     from: 'onboarding@resend.dev',
@@ -20,7 +21,7 @@ export const sendPasswordVerificationEmail = async (
   email: string,
   token: string
 ) => {
-  const confirmationLink = `http://localhost:3000/verify/key/?token=${token}`;
+  const confirmationLink = `${domain}/verify/key/?token=${token}`;
 
   await resend.emails.send({
     from: 'onboarding@resend.dev',
@@ -37,7 +38,7 @@ export const send2FAVerificationEmail = async (
   await resend.emails.send({
     from: 'onboarding@resend.dev',
     to: email,
-    subject: 'Please verify your password reset',
+    subject: 'Please verify your 2FA code',
     html: `<p>Your code is ${token}</p>`
   });
 };

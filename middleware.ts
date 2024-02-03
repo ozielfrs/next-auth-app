@@ -34,8 +34,18 @@ export default auth(req => {
   }
 
   if (isAppRoute)
-    if (!isLoggedIn)
-      return Response.redirect(new URL(DEFAULT_SIGNIN_IN_URL.path, nextUrl));
+    if (!isLoggedIn) {
+      let callbackUrl = nextUrl.pathname;
+      if (nextUrl.search) callbackUrl += nextUrl.search;
+
+      const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+      return Response.redirect(
+        new URL(
+          `${DEFAULT_SIGNIN_IN_URL.path}?callbackUrl=${encodedCallbackUrl}`,
+          nextUrl
+        )
+      );
+    }
 
   return null;
 });

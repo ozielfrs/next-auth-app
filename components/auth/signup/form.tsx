@@ -61,14 +61,17 @@ export const SignUpForm = () => {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="space-y-3">
             <FormField
-              disabled={isPending}
               control={form.control}
               name={'name'}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder={'Your Name'} />
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      placeholder={'Your Name'}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -76,7 +79,6 @@ export const SignUpForm = () => {
             />
 
             <FormField
-              disabled={isPending}
               control={form.control}
               name={'email'}
               render={({ field }) => (
@@ -85,6 +87,7 @@ export const SignUpForm = () => {
                   <FormControl>
                     <Input
                       {...field}
+                      disabled={isPending}
                       placeholder={'example@mail.com'}
                       type={'email'}
                     />
@@ -95,7 +98,6 @@ export const SignUpForm = () => {
             />
 
             <FormField
-              disabled={isPending}
               control={form.control}
               name={'password'}
               render={({ field }) => (
@@ -104,6 +106,7 @@ export const SignUpForm = () => {
                   <FormControl>
                     <Input
                       {...field}
+                      disabled={isPending}
                       placeholder={'********'}
                       type={'password'}
                     />
@@ -114,7 +117,11 @@ export const SignUpForm = () => {
             />
             <FormSuccess message={success} />
             <FormError message={error} />
-            <Button className={'w-full bg-gradient-500'} type={'submit'}>
+            <Button
+              disabled={isPending}
+              className={'w-full bg-gradient-500'}
+              type={'submit'}
+            >
               Confirm
             </Button>
           </div>

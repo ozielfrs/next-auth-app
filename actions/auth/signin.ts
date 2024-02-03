@@ -16,11 +16,14 @@ import {
 } from '@/lib/tokens';
 import { DEFAULT_LANDING_PAGE_URL } from '@/routes';
 import { SignInSchema } from '@/schemas';
+import bcrypt from 'bcryptjs';
 import { AuthError } from 'next-auth';
 import { z } from 'zod';
-import bcrypt from 'bcryptjs';
 
-export const ValidateUser = async (values: z.infer<typeof SignInSchema>) => {
+export const ValidateUser = async (
+  values: z.infer<typeof SignInSchema>,
+  callbackUrl?: string
+) => {
   const validatedFields = SignInSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: 'Invalid fields!' };
@@ -71,7 +74,7 @@ export const ValidateUser = async (values: z.infer<typeof SignInSchema>) => {
     await signIn('credentials', {
       email,
       password,
-      redirectTo: DEFAULT_LANDING_PAGE_URL.path
+      redirectTo: callbackUrl || DEFAULT_LANDING_PAGE_URL.path
     });
   } catch (e) {
     if (e instanceof AuthError) {

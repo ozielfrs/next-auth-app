@@ -29,6 +29,7 @@ export const SignInForm = () => {
   const [twoFA, setTwoFA] = useState<boolean>(false);
 
   const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl');
 
   const errorParam =
     searchParams.get('error') === 'OAuthAccountNotLinked'
@@ -49,7 +50,7 @@ export const SignInForm = () => {
     setTwoFA(false);
 
     startTransition(() => {
-      ValidateUser(data).then(res => {
+      ValidateUser(data, callbackUrl ?? undefined).then(res => {
         if (res) {
           if (res.error) setError(res.error);
           if (res.success) setSuccess(res.success);

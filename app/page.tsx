@@ -26,10 +26,10 @@ const AppPage = () => {
           A simple app to demonstrate authentication with NextAuth.js
         </p>
         <div className={'space-x-5'}>
-          <SignButton href={'/signin'}>
+          <SignButton href={'/signin'} mode="modal" asChild>
             <Button variant={'secondary'}>Sign In</Button>
           </SignButton>
-          <SignButton href={'/signup'}>
+          <SignButton href={'/signup'} mode="modal" asChild>
             <Button variant={'secondary'}>Sign Up</Button>
           </SignButton>
         </div>

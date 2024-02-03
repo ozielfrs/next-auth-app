@@ -27,11 +27,12 @@ const EmailVerificationPage = () => {
       setError('Invalid token');
       return;
     }
+
     SendEmailVerificationLink(token)
       .then(res => {
         if (res) {
-          setError(res.error);
-          setSuccess(res.success);
+          if (res.error) setError(res.error);
+          if (res.success) setSuccess(res.success);
         }
       })
       .catch(() => {

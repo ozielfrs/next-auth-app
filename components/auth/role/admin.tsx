@@ -5,14 +5,14 @@ import { FormSuccess } from '@/components/form/states';
 import { Button } from '@/components/ui/button';
 import { UserRole } from '@prisma/client';
 import { toast } from 'sonner';
-import { RoleGate } from './role';
+import { RoleGate } from '@/components/auth/role/role';
 
 export const AdminRole = () => {
   const onServerActionClick = async () => {
     admin().then(res =>
       res.ok
-        ? toast.success('API Route Success!')
-        : toast.error('API Route Failed!')
+        ? toast.success('Server Action Success!')
+        : toast.error('Server Action Failed!')
     );
   };
 

@@ -10,12 +10,14 @@ import { UserRole } from '@prisma/client';
 import type { Session, User } from 'next-auth';
 import NextAuth from 'next-auth';
 import { JWT } from 'next-auth/jwt';
+import { getAccountByUserId } from './data/account';
 
 export const {
   handlers: { GET, POST },
   auth,
   signIn,
-  signOut
+  signOut,
+  unstable_update
 } = NextAuth({
   pages: {
     signIn: '/signin',
@@ -60,9 +62,12 @@ export const {
       if (session.user) {
         if (token?.sub) {
           session.user.id = token.sub;
+          if (token?.name) session.user.name = token.name as string;
           if (token?.role) session.user.role = token.role as UserRole;
           if (token?.enabled2FA)
             session.user.enabled2FA = token.enabled2FA as boolean;
+          if (token?.email) session.user.email = token.email as string;
+          if (token?.isOAuth) session.user.isOAuth = token.isOAuth as boolean;
         }
       }
 
@@ -71,11 +76,17 @@ export const {
     async jwt({ token }) {
       if (token?.sub) {
         const user = await getUserById(token.sub);
-        if (user) {
-          token.enabled2FA = user.enabled2FA;
-          token.role = user.role;
+        if (!user) {
+          return token;
         }
+        const account = await getAccountByUserId(user.id);
+        token.name = user.name;
+        token.email = user.email;
+        token.enabled2FA = user.enabled2FA;
+        token.role = user.role;
+        token.isOAuth = account ? true : false;
       }
+
       return token;
     }
   },

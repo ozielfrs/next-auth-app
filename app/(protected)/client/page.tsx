@@ -1,4 +1,5 @@
 'use client';
+
 import { UserInfo } from '@/components/auth/user/info';
 import { useHookedUser } from '@/hooks/auth/user';
 

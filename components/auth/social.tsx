@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { DEFAULT_LANDING_PAGE_URL } from '@/routes';
 import { signIn } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
 
 export interface SocialLinkProps {
   text: string;
@@ -15,9 +16,11 @@ export const SocialLinks = ({
   providerIcon,
   provider
 }: SocialLinkProps) => {
+  const params = useSearchParams();
+  const callbackUrl = params.get('callbackUrl');
   const onClick = (p: string) => {
     signIn(p, {
-      callbackUrl: DEFAULT_LANDING_PAGE_URL.path
+      callbackUrl: callbackUrl || DEFAULT_LANDING_PAGE_URL.path
     });
   };
 
