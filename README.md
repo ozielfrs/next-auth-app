@@ -6,24 +6,24 @@ I'm following his tutorial about [Next Auth V5](https://www.codewithantonio.com/
 
 ## Overview
 
-Auth App is a web application that provides users (so far) a sign-in and sign-up experience. It features a visually appealing landing page and intuitive navigation.
+The application has features for authentication users by email. You can't sign in with email because I didn't add a real email provider for that, but you can try it out with your GitHub or Google account.
 
-![Landing Page](./img/app/landing_page.png)
+### Sign in
 
-## Features
+![Sign In](./img/sign_in_modal.png)
 
-### Sign In
+### Authentication
 
-Existing users can sign in to the app using their credentials. The sign-in page is designed for ease of use, and if there are any issues with the user's credentials, they will receive an error message.
+![Authenticate with email](./img/sign_in_token.png)
 
-![Sign In Page](./img/app/sign_in_page.png)
+### Settings
 
-### Sign Up
+![Change your preferences](./img/settings_page.png)
 
-New users can create an account using the sign-up page. The sign-up process is straightforward, and users will receive a confirmation message once their account is successfully created.
+### Server & Client components
 
-![Sign Up Page](./img/app/sign_up_page.png)
+![See your data](./img/client_component.png)
 
-## Future Improvements
+### Admin page
 
-Work is ongoing to add more features and improve the user experience.
+![Admin only stuff](./img/admin_page.png)
